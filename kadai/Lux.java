@@ -1,22 +1,49 @@
 package kadai;
 
 public class Lux extends Champion {
-	public void attack(Monster m) {
-		System.out.println(this.name + "のビームが炸裂!!");
-		System.out.println("「DEMAAAAAAAACIAAAAAA!!!!」");
-		m.hp -= this.ap;
-		System.out.println(m.name + "に" + this.ap + "のダメージ!!");
+	public void attack(Monster[] m) {
+		super.attack(m);
+		int selected = new java.util.Scanner(System.in).nextInt() - 1;
+		if (selected < m[0].num && m[selected].hp > 0) {
+			System.out.println(this.name + "のターン!!");
+			System.out.println("「え〜い⭐️」");
+			super.time();
+			m[selected].takeDamage(this.ad);
+			System.out.println(m[selected].name + "に" + this.ad + "のダメージ!!");
+			super.time();
+			if (m[selected].hp <= 0) {
+				System.out.println(m[selected].name + "は霧散した");
+				super.time();
+			}
+		} else {
+			System.out.println("狙いが定まらない！");
+			this.attack(m);
+		}
 	}
-	public void beam(Monster m) {
+
+	public void skillR(Monster[] m) {
+		System.out.println(this.name + "のターン!!");
+		super.time();
 		System.out.println(this.name + "のビームが炸裂!!");
-		System.out.println("DEMAAAAAAAACIAAAAAA!!!!");
-		m.hp -= this.ap * 2;
-		System.out.println(m.name + "に" + this.ap * 2 + "のダメージ!!");
+		super.time();
+		System.out.println("「DEMAAACIAAA!!!」");
+		super.time();
+		for (Monster monster : m) {
+			int dmg = this.ap * 2;
+			monster.takeDamage(dmg);
+			System.out.println(monster.name + "に" + dmg + "のダメージ!!");
+			super.time();
+			if (monster.hp <= 0) {
+				System.out.println(monster.name + "は霧散した");
+				super.time();
+			}
+
+		}
 	}
-	
-	public int comando(Monster m) {
+
+	public void comando(Monster[] m) {
 		System.out.println("行うコマンドを数字で選択してください。");
-		System.out.println("1:攻撃 2:逃げる 3:体力確認 4:ビーム");
+		System.out.println("1:攻撃 2:逃げる 3:体力確認 4:ULT");
 		int selected = new java.util.Scanner(System.in).nextInt();
 		switch (selected) {
 		case 1:
@@ -27,14 +54,14 @@ public class Lux extends Champion {
 			break;
 		case 3:
 			this.check(m);
+			this.comando(m);
 			break;
 		case 4:
-			this.beam(m);
+			this.skillR(m);
 			break;
 		default:
-			System.out.println("そんなコマンドはない！！");		
+			System.out.println("そんなコマンドはない！！");
 		}
-		return selected;
 	}
 
 	public Lux() {
