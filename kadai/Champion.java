@@ -3,8 +3,11 @@ package kadai;
 public abstract class Champion {
 	String name;
 	int hp;
+	int maxHp;
 	int ad;
 	int ap;
+	int ar;
+	
 	boolean deathCheck;
 	public  void attack(Monster[] m) {
 		System.out.println("攻撃対象を選択しろ！");
@@ -38,11 +41,26 @@ public abstract class Champion {
 		}time();
 	}
 	
-	public void takeDamage(int d) {
-		this.hp -= d;
+	public int takeDamage(int d) {
+		int damage = d;
+		if(damage >= 0) {
+		this.hp -= damage;
+		}else if(damage < 0) {
+			this.hp -= 0;
+		}
+		return damage;
 	}
 	
-	public abstract void comando(Monster[] m);
+	public int damageCalculation(int ar){
+		int dmg = this.ad - ar;
+		if(dmg <= 0) {
+			dmg =0;
+		}
+		return dmg;
+	}
+	
+	
+	public abstract void comando(Monster[] m, Champion c, ConsumptionItem i);
 	
 	public boolean checkHp(int hp) {
 		if(this.hp >= 0) {
@@ -51,6 +69,18 @@ public abstract class Champion {
 			deathCheck = true;
 		}
 		return deathCheck;
+	}
+	
+	public void equipment(EquipmentItem i) {
+		this.hp += i.increasedHealth;
+		this.maxHp += i.increasedHealth;
+		this.ad += i.increasedAd;
+		this.ar += i.increasedAr;
+		i.check = true;
+	}
+	
+	public void useItem(Champion c,ConsumptionItem i){
+		i.useItem(c);
 	}
 	
 	public static void time() {

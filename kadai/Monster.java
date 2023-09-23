@@ -5,6 +5,7 @@ public abstract class Monster {
 	int hp;
 	int maxHp;
 	int ad;
+	int ar;
 	char sufix;
 	boolean deathCheck;
 	int num;
@@ -12,7 +13,12 @@ public abstract class Monster {
 	public abstract void attack(Champion c);
 
 	public void takeDamage(int d) {
-		this.hp -= d;
+		int damage = d - this.ar;
+		if(damage >= 0) {
+		this.hp -= damage;
+		}else if(damage < 0) {
+			this.hp -= 0;
+		}
 	}
 
 	public boolean checkHp(Monster m) {

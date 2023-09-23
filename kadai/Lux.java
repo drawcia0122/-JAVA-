@@ -4,12 +4,18 @@ public class Lux extends Champion {
 	public void attack(Monster[] m) {
 		super.attack(m);
 		int selected = new java.util.Scanner(System.in).nextInt() - 1;
-		if (selected < m[0].num && m[selected].hp > 0) {
+		if (selected < m.length && m[selected].hp > 0) {
 			System.out.println(this.name + "のターン!!");
 			System.out.println("「え〜い⭐️」");
 			super.time();
 			m[selected].takeDamage(this.ad);
-			System.out.println(m[selected].name + "に" + this.ad + "のダメージ!!");
+//			ここはメソッドにかえたい
+			int dmg = this.ad - m[selected].ar;
+			if(dmg <= 0) {
+				dmg =0;
+			}
+//			ここまで
+			System.out.println(m[selected].name + "に" + dmg + "のダメージ!!");
 			super.time();
 			if (m[selected].hp <= 0) {
 				System.out.println(m[selected].name + "は霧散した");
@@ -41,7 +47,7 @@ public class Lux extends Champion {
 		}
 	}
 
-	public void comando(Monster[] m) {
+	public void comando(Monster[] m,Champion c,ConsumptionItem i) {
 		System.out.println("行うコマンドを数字で選択してください。");
 		System.out.println("1:攻撃 2:逃げる 3:体力確認 4:ULT");
 		int selected = new java.util.Scanner(System.in).nextInt();
@@ -54,10 +60,13 @@ public class Lux extends Champion {
 			break;
 		case 3:
 			this.check(m);
-			this.comando(m);
+			this.comando(m,c,i);
 			break;
 		case 4:
 			this.skillR(m);
+			break;
+		case 5:
+			i.useItem(c);
 			break;
 		default:
 			System.out.println("そんなコマンドはない！！");
@@ -67,7 +76,9 @@ public class Lux extends Champion {
 	public Lux() {
 		this.name = "ラックス";
 		this.hp = 560;
+		this.maxHp = 560;
 		this.ad = 54;
 		this.ap = 100;
+		this.ar = 10;
 	}
 }

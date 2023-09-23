@@ -25,7 +25,10 @@ public class Matango extends Monster {
 		}
 		System.out.println(this.name + "「キョキョーーーッ!!」");
 		super.time();
-		int dmg = this.ad;
+		int dmg = this.ad - c.ar;
+		if(dmg <= 0) {
+			dmg =0;
+		}
 		System.out.println(c.name + "に" + dmg + "のダメージ!!");
 		super.time();
 		c.takeDamage(dmg);
@@ -38,12 +41,12 @@ public class Matango extends Monster {
 		this.ad = 300;
 	}
 
-	public Matango(char sufix, int num) {
+	public Matango(char sufix) {
 		this.name = "マタンゴちゃん" + sufix;
 		this.hp = 100;
 		this.maxHp = 100;
-		this.ad = 200;
+		this.ad = 50;
+		this.ar = 5;
 		this.sufix = sufix;
-		this.num = num;
 	}
 }
