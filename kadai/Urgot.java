@@ -41,15 +41,13 @@ public class Urgot extends Champion {
 				System.out.println("ギャリギャリギャリ");
 				super.time();
 				int dmg = m[selected].hp;
-				m[selected].takeDamage(dmg);
+				m[selected].hp -= dmg;
 				System.out.println(m[selected].name + "に" + dmg + "のダメージ!!");
 				super.time();
-			}
-			if (m[selected].hp <= 0) {
 				System.out.println(m[selected].name + "は霧散した");
 				super.time();
 			}
-			if (m[selected].hp >= 0) {
+			if (m[selected].hp > 0) {
 				System.out.println("効果がないようだ");
 				super.time();
 			}
@@ -62,7 +60,7 @@ public class Urgot extends Champion {
 
 	public void comando(Monster[] m,Champion c,ConsumptionItem i) {
 		System.out.println("行うコマンドを数字で選択してください。");
-		System.out.println("1:攻撃 2:逃げる 3:体力確認 4:ULT");
+		System.out.println("1:攻撃 2:逃げる 3:体力確認 4:ULT 5:アイテム");
 		int selected = new java.util.Scanner(System.in).nextInt();
 		switch (selected) {
 		case 1:
