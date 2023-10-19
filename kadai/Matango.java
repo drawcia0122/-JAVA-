@@ -11,10 +11,6 @@ public class Matango extends Monster {
 	//		}
 
 	public void attack(Champion c) {
-		if (this.hp <= 0) {
-			return;
-		}
-
 		System.out.println(this.name + "のターン!!");
 		super.time();
 		int matangoSelected = new java.util.Random().nextInt(1);
@@ -45,7 +41,7 @@ public class Matango extends Monster {
 		this.name = "マタンゴちゃん" + sufix;
 		this.hp = 100;
 		this.maxHp = 100;
-		this.ad = 50;
+		this.ad = 5000;
 		this.ar = 5;
 		this.sufix = sufix;
 	}

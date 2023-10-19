@@ -10,7 +10,7 @@ public class ElixirAr extends ConsumptionItem {
 		}else {
 			System.out.println("もうない");
 		}
-	}
+		}
 
 	public ElixirAr() {
 		this.name = "硬くなるエリクサー";

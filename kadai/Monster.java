@@ -7,27 +7,31 @@ public abstract class Monster {
 	int ad;
 	int ar;
 	char sufix;
-	boolean deathCheck;
+	boolean deathCheck = false;
 	int num;
 
 	public abstract void attack(Champion c);
 
-	public void takeDamage(int d) {
-		int damage = d - this.ar;
-		if(damage >= 0) {
-		this.hp -= damage;
-		}else if(damage < 0) {
+	public int takeDamage(int damage) {
+		if (damage >= 0) {
+			this.hp -= damage;
+			if (this.hp <= 0) {
+				System.out.println(this.name + "は霧散した");
+				this.checkHp(this);
+			}
+		} else if (damage < 0) {
 			this.hp -= 0;
 		}
+		return damage;
 	}
 
 	public boolean checkHp(Monster m) {
 		if (this.hp > 0) {
-			deathCheck = false;
+			this.deathCheck = false;
 		} else if (this.hp <= 0) {
-			deathCheck = true;
+			this.deathCheck = true;
 		}
-		return deathCheck;
+		return this.deathCheck;
 	}
 
 	public static void time() {

@@ -5,6 +5,10 @@ public class HealthPortion extends ConsumptionItem{
 
 	public void useItem(Champion c) {
 		int differense = c.maxHp - c.hp;
+		if(c.hp <= 0) {
+			System.out.println("もう死んでる");
+		}
+		else {
 		if(this.NumberOfPieces > 0) {
 			this.NumberOfPieces -= 1;
 			System.out.println(c.name + "は" + this.name + "を使った！");
@@ -19,6 +23,7 @@ public class HealthPortion extends ConsumptionItem{
 				System.out.println("もうない");
 			}
 		}
+	}
 	
 	
 	public HealthPortion() {

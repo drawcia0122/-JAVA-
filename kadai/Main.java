@@ -1,88 +1,118 @@
 package kadai;
 
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class Main {
+	public static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		Champion[] champions = new Champion[3];
-		champions[0] = new Garen();
-		champions[1] = new Lux();
-		champions[2] = new Urgot();
-
-		// 		キャラ選択
-		System.out.println("キャラクターを選んでください。");
 		int i = 1;
-		for (Champion champion : champions) {
-			System.out.print(i + ":" + champion.name + "  ");
-			i++;
-		}
-		int championSelected = new java.util.Scanner(System.in).nextInt();
-		int s = championSelected - 1;
-		while (championSelected > 3) {
-			System.out.println("ちゃんと選べよい");
-			System.out.println("キャラクターを選んでください。");
-			i = 1;
+		Champion[] champions = new Champion[] { new Garen(), new Lux(), new Urgot(), new Rengar() };
+		// 		キャラ選択
+		var championPicks = new Champion[3];
+		for (int pick = 0; pick < championPicks.length; pick++) {
+			//			int championPickNumber = pick - 1;
+			System.out.println("キャラクターを3体選んでください。");
 			for (Champion champion : champions) {
-				System.out.print(i + ":" + champion.name + "  ");
-				i++;
+				if (champion.pick == false) {
+					int index = Arrays.asList(champions).indexOf(champion) + 1;
+					System.out.print(index + ":" + champion.name + "  ");
+				}
 			}
-			championSelected = new java.util.Scanner(System.in).nextInt();
-			s = championSelected - 1;
+			int championSelected = Main.scanner.nextInt() - 1;
+			while (championSelected > champions.length || champions[championSelected].pick == true) {
+				System.out.println("ちゃんと選べよい");
+				System.out.println("キャラクターを選んでください。");
+				for (Champion champion : champions) {
+					if (champion.pick == false) {
+						int index = Arrays.asList(champions).indexOf(champion) + 1;
+						System.out.print(index + ":" + champion.name + "  ");
+					}
+				}
+				championSelected = Main.scanner.nextInt() - 1;
+			}
+			System.out.println("あなたは" + champions[championSelected].name + "をピックした。");
+			champions[championSelected].pick();
+			championPicks[pick] = champions[championSelected];
+			time();
 		}
-		System.out.println("あなたは" + champions[s].name + "をピックした。");
-		time();
-
 		//装備選択
 		System.out.println("装備を選んでください");
-		EquipmentItem[] equipmentItems = new EquipmentItem[3];
-		equipmentItems[0] = new RubyCrystal();
-		equipmentItems[1] = new BfSword();
-		equipmentItems[2] = new ClothArmmor();
-		i = 1;
+		EquipmentItem[] equipmentItems = new EquipmentItem[] { new RubyCrystal(), new BfSword(), new ClothArmor() };
 		for (EquipmentItem equipmentItem : equipmentItems) {
-			System.out.print(i + ":" + equipmentItem.name + "  ");
-			i++;
+			int index = Arrays.asList(equipmentItems).indexOf(equipmentItem) + 1;
+			System.out.print(index + ":" + equipmentItem.name + "  ");
 		}
-		int equipmentItemSelected = new java.util.Scanner(System.in).nextInt();
-		int is = equipmentItemSelected - 1;
+		int equipmentItemSelected = Main.scanner.nextInt() - 1;
 		while (equipmentItemSelected > 3) {
 			System.out.println("ちゃんと選べよい");
 			System.out.println("装備を選んでください。");
-			i = 1;
-			for (EquipmentItem item : equipmentItems) {
-				System.out.print(i + ":" + item.name + "  ");
-				i++;
+			for (EquipmentItem equipmentItem : equipmentItems) {
+				int index = Arrays.asList(equipmentItems).indexOf(equipmentItem) + 1;
+				System.out.print(index + ":" + equipmentItem.name + "  ");
 			}
-			equipmentItemSelected = new java.util.Scanner(System.in).nextInt();
-			is = equipmentItemSelected - 1;
+			equipmentItemSelected = Main.scanner.nextInt() - 1;
 		}
-		System.out.println("あなたは" + equipmentItems[is].name + "を装備した。");
-		champions[s].equipment(equipmentItems[is]);
+		System.out.println("装備させるキャラクターを選んで下さい");
+		for (Champion championPick : championPicks) {
+			int index = Arrays.asList(championPicks).indexOf(championPick) + 1;
+			System.out.print(index + ":" + championPick.name + "  ");
+		}
+		int equipmentPick = Main.scanner.nextInt() - 1;
+		while (equipmentPick > equipmentItems.length) {
+			System.out.println("ちゃんと選べよい");
+			System.out.println("装備させるキャラクターを選んでください。");
+			for (Champion championPick : championPicks) {
+				int index = Arrays.asList(championPicks).indexOf(championPick) + 1;
+				System.out.print(index + ":" + championPick.name + "  ");
+			}
+			equipmentPick = Main.scanner.nextInt() - 1;
+		}
+		System.out.println(
+				championPicks[equipmentPick].name + "は" + equipmentItems[equipmentItemSelected].name + "を装備した。");
+		championPicks[equipmentPick].equipment(equipmentItems[equipmentItemSelected]);
 
 		//消費アイテム選択
 		System.out.println("消費アイテムを選んでください");
-		ConsumptionItem[] consumptionItems = new ConsumptionItem[3];
-		consumptionItems[0] = new HealthPortion();
-		consumptionItems[1] = new ElixirAr();
-		consumptionItems[2] = new ElixirAd();
-		i = 1;
+		ConsumptionItem[] consumptionItems = new ConsumptionItem[] { new HealthPortion(), new ElixirAr(),
+				new ElixirAd() };
 		for (ConsumptionItem consumptionItem : consumptionItems) {
-			System.out.print(i + ":" + consumptionItem.name + "  ");
-			i++;
+			int index = Arrays.asList(consumptionItems).indexOf(consumptionItem) + 1;
+			System.out.print(index + ":" + consumptionItem.name + "  ");
 		}
-		int consumptionItemSelected = new java.util.Scanner(System.in).nextInt();
-		is = consumptionItemSelected - 1;
+		int consumptionItemSelected = Main.scanner.nextInt() - 1;
 		while (consumptionItemSelected > 3) {
 			System.out.println("ちゃんと選べよい");
 			System.out.println("消費アイテムを選んでください。");
-			i = 1;
 			for (ConsumptionItem consumptionItem : consumptionItems) {
-				System.out.print(i + ":" + consumptionItem.name + "  ");
+				int index = Arrays.asList(consumptionItems).indexOf(consumptionItem) + 1;
+				System.out.print(index + ":" + consumptionItem.name + "  ");
+			}
+			consumptionItemSelected = new java.util.Scanner(System.in).nextInt() - 1;
+		}
+
+		System.out.println("取得させるキャラクターを選んで下さい");
+		i = 1;
+		for (Champion championPick : championPicks) {
+			System.out.print(i + ":" + championPick.name + "  ");
+			i++;
+		}
+		int consumptionPick = Main.scanner.nextInt() - 1;
+		while (consumptionPick > consumptionItems.length) {
+			System.out.println("ちゃんと選べよい");
+			System.out.println("取得させるキャラクターを選んでください。");
+			i = 1;
+			for (Champion championPick : championPicks) {
+				System.out.print(i + ":" + championPick.name + "  ");
 				i++;
 			}
-			consumptionItemSelected = new java.util.Scanner(System.in).nextInt();
-			is = consumptionItemSelected - 1;
+			consumptionPick = new java.util.Scanner(System.in).nextInt() - 1;
 		}
-		System.out.println("あなたは" + consumptionItems[is].name + "を" + consumptionItems[is].NumberOfPieces + "個手に入れた");
+		System.out.println(
+				championPicks[consumptionPick].name + "は" + consumptionItems[consumptionItemSelected].name + "を"
+						+ consumptionItems[consumptionItemSelected].NumberOfPieces + "個手に入れた");
+		championPicks[consumptionPick].haveItem = true;
 
 		//		モンスター生成、エンカウント
 		int monsterCount = new java.util.Random().nextInt(3) + 1;
@@ -95,46 +125,61 @@ public class Main {
 			System.out.println(monsters[i].name + "が現れた！");
 			time();
 		}
-
 		//		バトル開始
-		boolean[] check = new boolean[monsterCount];
-		boolean r = false;
-		while (champions[s].hp > 0 && r == false) {
-			champions[s].comando(monsters, champions[s], consumptionItems[is]);
+		boolean monstersDeathCheck = false;
+		boolean championsDeathCheck = false;
+		while (championsDeathCheck == false && monstersDeathCheck == false) {
+			//味方の行動選択
+			for (Champion championPick : championPicks) {
+				if (championPick.deathCheck != true) {
+					//モンスター全滅判定
+					for (Monster monster : monsters) {
+						monstersDeathCheck = true;
+						if (monster.deathCheck != true) {
+							monstersDeathCheck = false;
+							break;
+						}
+					}
+					//モンスターが全滅していない場合生きてるチャンピオンが動く
+					if (championPick.deathCheck == false && monstersDeathCheck == false) {
+						System.out.println(championPick.name + "のターン！");
+						championPick.comando(championPicks, monsters, consumptionItems[consumptionItemSelected]);
+					}
+				}
+			}
+			//モンスターの行動
 			for (Monster monster : monsters) {
-				monster.attack(champions[s]);
-				champions[s].checkHp(champions[s].hp);
-				if (champions[s].deathCheck == true) {
-					break;
+				if(monster.deathCheck != true) {
+					//味方全滅判定
+					for (Champion champion : championPicks) {
+						championsDeathCheck = true;
+						if (champion.deathCheck != true) {
+							championsDeathCheck = false;
+							break;
+						}
+					}
+					
+				//対象選択、行動
+					if (monster.deathCheck == false && championsDeathCheck == false) {
+				int target = new java.util.Random().nextInt(3);
+				while (championPicks[target].deathCheck != false) {
+					target = new java.util.Random().nextInt(3);
 				}
-				monster.checkHp(monster);
-
-				for (i = 0; i < monsterCount; i++) {
-					check[i] = monster.deathCheck;
+				monster.attack(championPicks[target]);
 				}
-			}
-			//			勝利判定
-			r = true;
-			for (Monster monster : monsters) {
-				if (monster.deathCheck == false) {
-					r = false;
-					break;
 				}
-			}
-			if (champions[s].deathCheck == false && r == true) {
-				System.out.println("敵を全滅させた");
-				System.out.println("VICTORY");
-				break;
-			}
-			if (champions[s].deathCheck == true) {
-				System.out.println(champions[s].name + "は力尽きた");
-				System.out.println("DEFEAT");
 			}
 		}
-	}
 
-	public static void victoryDecision() {
-
+		
+		//リザルト
+		if (monstersDeathCheck == true) {
+			System.out.println("敵を全滅させた");
+			System.out.println("VICTORY");
+		}
+		else if (championsDeathCheck == true) {
+			System.out.println("DEFEAT");
+		}
 	}
 
 	public static void time() {
@@ -143,6 +188,5 @@ public class Main {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
 	}
 }

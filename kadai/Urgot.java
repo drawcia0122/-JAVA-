@@ -3,36 +3,37 @@ package kadai;
 public class Urgot extends Champion {
 	public void attack(Monster[] m) {
 		super.attack(m);
-		int selected = new java.util.Scanner(System.in).nextInt() - 1;
+		int selected = Main.scanner.nextInt() - 1;
+		 if (m[selected].hp <= 0) {
+				super.time();
+				System.out.println("既に死んでいる");
+			}
 		if (selected < m.length && m[selected].hp > 0) {
-			super.time();
 			System.out.println(this.name + "のターン!!");
 			super.time();
 			System.out.println("「死は救済なり」");
 			super.time();
-//			ここはメソッドにかえたい
 			int dmg = this.ad - m[selected].ar;
 			if(dmg <= 0) {
 				dmg =0;
 			}
-//			ここまで
-			m[selected].takeDamage(this.ad);
 			System.out.println(m[selected].name + "に" + dmg + "のダメージ!!");
+			m[selected].takeDamage(dmg);
 			super.time();
-			if (m[selected].hp <= 0) {
-				System.out.println(m[selected].name + "は霧散した");
-				super.time();
-			}
-		} else {
+		}
+			
+		 if (selected > m.length){
 			System.out.println("「...?」");
 			super.time();
 			this.attack(m);
+		 }
 		}
-	}
+
+
 
 	public void skillR(Monster[] m) {
 		super.attack(m);
-		int selected = new java.util.Scanner(System.in).nextInt() - 1;
+		int selected = Main.scanner.nextInt() - 1;
 		if (selected < m.length && m[selected].hp > 0) {
 			System.out.println(this.name + "のターン!!");
 			System.out.println(this.name + "のデスグラインダー!!");
@@ -41,10 +42,9 @@ public class Urgot extends Champion {
 				System.out.println("ギャリギャリギャリ");
 				super.time();
 				int dmg = m[selected].hp;
-				m[selected].hp -= dmg;
 				System.out.println(m[selected].name + "に" + dmg + "のダメージ!!");
 				super.time();
-				System.out.println(m[selected].name + "は霧散した");
+				m[selected].takeDamage(dmg);
 				super.time();
 			}
 			if (m[selected].hp > 0) {
@@ -58,10 +58,10 @@ public class Urgot extends Champion {
 		}
 	}
 
-	public void comando(Monster[] m,Champion c,ConsumptionItem i) {
+	public void comando(Champion[] c,Monster[] m,ConsumptionItem i) {
 		System.out.println("行うコマンドを数字で選択してください。");
 		System.out.println("1:攻撃 2:逃げる 3:体力確認 4:ULT 5:アイテム");
-		int selected = new java.util.Scanner(System.in).nextInt();
+		int selected = Main.scanner.nextInt();
 		switch (selected) {
 		case 1:
 			this.attack(m);
@@ -70,14 +70,14 @@ public class Urgot extends Champion {
 			this.run();
 			break;
 		case 3:
-			this.check(m);
-			this.comando(m,c,i);
+			this.check(c,m);
+			this.comando(c,m,i);
 			break;
 		case 4:
 			this.skillR(m);
 			break;
 		case 5:
-			i.useItem(c);
+			this.useItem(c,m,i);
 			break;
 		default:
 			System.out.println("そんなコマンドはない！！");
@@ -91,6 +91,7 @@ public class Urgot extends Champion {
 		this.ad = 63;
 		this.ap = 0;
 		this.ar = 20;
-		this.deathCheck = false;
+		this.pick = false;
+		this.haveItem = false;
 	}
 }
