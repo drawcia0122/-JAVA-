@@ -13,14 +13,15 @@ public abstract class Monster {
 	public abstract void attack(Champion c);
 
 	public int takeDamage(int damage) {
-		if (damage >= 0) {
+		if (damage > 0) {
 			this.hp -= damage;
 			if (this.hp <= 0) {
 				System.out.println(this.name + "は霧散した");
 				this.checkHp(this);
 			}
-		} else if (damage < 0) {
+		} else if (damage <= 0) {
 			this.hp -= 0;
+			System.out.println("しかし効果がないようだ");
 		}
 		return damage;
 	}

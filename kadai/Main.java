@@ -12,7 +12,6 @@ public class Main {
 		// 		キャラ選択
 		var championPicks = new Champion[3];
 		for (int pick = 0; pick < championPicks.length; pick++) {
-			//			int championPickNumber = pick - 1;
 			System.out.println("キャラクターを3体選んでください。");
 			for (Champion champion : champions) {
 				if (champion.pick == false) {
@@ -45,7 +44,7 @@ public class Main {
 			System.out.print(index + ":" + equipmentItem.name + "  ");
 		}
 		int equipmentItemSelected = Main.scanner.nextInt() - 1;
-		while (equipmentItemSelected > 3) {
+		while (equipmentItemSelected > equipmentItems.length) {
 			System.out.println("ちゃんと選べよい");
 			System.out.println("装備を選んでください。");
 			for (EquipmentItem equipmentItem : equipmentItems) {
@@ -82,7 +81,7 @@ public class Main {
 			System.out.print(index + ":" + consumptionItem.name + "  ");
 		}
 		int consumptionItemSelected = Main.scanner.nextInt() - 1;
-		while (consumptionItemSelected > 3) {
+		while (consumptionItemSelected > consumptionItems.length) {
 			System.out.println("ちゃんと選べよい");
 			System.out.println("消費アイテムを選んでください。");
 			for (ConsumptionItem consumptionItem : consumptionItems) {
@@ -149,7 +148,7 @@ public class Main {
 			}
 			//モンスターの行動
 			for (Monster monster : monsters) {
-				if(monster.deathCheck != true) {
+				if (monster.deathCheck != true) {
 					//味方全滅判定
 					for (Champion champion : championPicks) {
 						championsDeathCheck = true;
@@ -158,26 +157,23 @@ public class Main {
 							break;
 						}
 					}
-					
-				//対象選択、行動
+					//対象選択、行動
 					if (monster.deathCheck == false && championsDeathCheck == false) {
-				int target = new java.util.Random().nextInt(3);
-				while (championPicks[target].deathCheck != false) {
-					target = new java.util.Random().nextInt(3);
-				}
-				monster.attack(championPicks[target]);
-				}
+						int target = new java.util.Random().nextInt(3);
+						while (championPicks[target].deathCheck != false) {
+							target = new java.util.Random().nextInt(3);
+						}
+						monster.attack(championPicks[target]);
+					}
 				}
 			}
 		}
 
-		
 		//リザルト
 		if (monstersDeathCheck == true) {
 			System.out.println("敵を全滅させた");
 			System.out.println("VICTORY");
-		}
-		else if (championsDeathCheck == true) {
+		} else if (championsDeathCheck == true) {
 			System.out.println("DEFEAT");
 		}
 	}

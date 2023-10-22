@@ -16,7 +16,34 @@ public abstract class Champion {
 
 	public static Scanner scanner = new Scanner(System.in);
 
-	public void attack(Monster[] m) {
+	public void comando(Champion[] c, Monster[] m, ConsumptionItem i) {
+		System.out.println("行うコマンドを数字で選択してください。");
+		System.out.println("1:攻撃 2:逃げる 3:体力確認 4:ULT 5:アイテム");
+		int selected = Main.scanner.nextInt();
+		switch (selected) {
+		case 1:
+			this.attack(m);
+			break;
+		case 2:
+			this.run();
+			break;
+		case 3:
+			this.check(c, m);
+			this.comando(c, m, i);
+			break;
+		case 4:
+			this.skillR(m);
+			break;
+		case 5:
+			this.useItem(c, m, i);
+			break;
+		default:
+			System.out.println("そんなコマンドはない！！");
+		}
+	}
+
+
+	public void selectTarget(Monster[] m) {
 		System.out.println("攻撃対象を選択しろ！");
 		int i = 1;
 		for (Monster monster : m) {
@@ -27,6 +54,7 @@ public abstract class Champion {
 		}
 
 	}
+	public abstract void attack(Monster[] m);
 
 	public abstract void skillR(Monster[] m);
 
@@ -70,25 +98,6 @@ public abstract class Champion {
 		return damage;
 	}
 
-	public int damageCalculation(int ar) {
-		int dmg = this.ad - ar;
-		if (dmg <= 0) {
-			dmg = 0;
-		}
-		return dmg;
-	}
-
-	public abstract void comando(Champion[] c, Monster[] m, ConsumptionItem i);
-
-	public boolean checkHp(int hp) {
-		if (this.hp >= 0) {
-			deathCheck = false;
-		} else if (this.hp <= 0) {
-			deathCheck = true;
-		}
-		return deathCheck;
-	}
-
 	public void equipment(EquipmentItem i) {
 		this.hp += i.increasedHealth;
 		this.maxHp += i.increasedHealth;
@@ -117,7 +126,6 @@ public abstract class Champion {
 				}
 				selected = Main.scanner.nextInt() - 1;
 			}
-
 			i.useItem(c[selected]);
 		}
 	}
